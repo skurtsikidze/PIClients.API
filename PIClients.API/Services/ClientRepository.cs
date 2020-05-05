@@ -39,11 +39,8 @@ namespace PIClients.API.Services
       }
 
       client.Photo = photo;
-      _context.Entry(client).State = EntityState.Added;
       _context.Clients.Add(client);
-
-      _context.SaveChangesAsync();
-
+      //_context.SaveChangesAsync();
       return client;
     }
     public Clients Update(int id, Clients client)
@@ -110,17 +107,24 @@ namespace PIClients.API.Services
         }
       }
 
-      _context.SaveChangesAsync();
+      //_context.SaveChangesAsync();
 
       return client;
     }
     public Clients Delete(int id)
     {
-      var client = _context.Clients.Find(id);
+      var client = _context.Clients.Include(d => d.PhoneNumbers).Include(t => t.RelatedClientsClient).Where(s => s.ClientId == id).FirstOrDefault();
+
       if (client != null)
       {
+        foreach (var item in client.PhoneNumbers.ToList())
+          _context.PhoneNumbers.Remove(item);
+
+        foreach (var item in client.RelatedClientsClient.ToList())
+            _context.RelatedClients.Remove(item);
+
         _context.Clients.Remove(client);
-        _context.SaveChangesAsync();
+        //_context.SaveChangesAsync();
       }
 
       return client;

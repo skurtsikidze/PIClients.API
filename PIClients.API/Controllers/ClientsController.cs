@@ -61,6 +61,7 @@ namespace PIClients.API.Controllers
       try
       {
         _unitOfWork.ClientRepository.Update(id, clients);
+        _unitOfWork.Save();
         return NoContent();
       }
       catch (Exception Err)
@@ -76,6 +77,7 @@ namespace PIClients.API.Controllers
       try
       {
         _unitOfWork.ClientRepository.Add(clients);
+        _unitOfWork.Save();
         return NoContent();
       }
       catch (Exception Err)
@@ -91,6 +93,7 @@ namespace PIClients.API.Controllers
       try
       {
         _unitOfWork.ClientRepository.Delete(id);
+        _unitOfWork.Save();
         return NoContent();
       }
       catch (Exception Err)
