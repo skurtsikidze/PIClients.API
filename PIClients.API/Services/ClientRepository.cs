@@ -39,7 +39,7 @@ namespace PIClients.API.Services
       }
 
       client.Photo = photo;
-
+      _context.Entry(client).State = EntityState.Added;
       _context.Clients.Add(client);
 
       _context.SaveChangesAsync();
